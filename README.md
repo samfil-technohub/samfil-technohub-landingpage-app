@@ -12,6 +12,6 @@ Running the Application
 - change into the directory and run `vagrant up` to boot the VM.
 
 Viewing the Application
----.
+---
 
 Application URL: 192.168.255.9
