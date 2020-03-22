@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -34,8 +35,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(cwd)
 
-	var err error
+	// var err error
 	_, err = tmpl.ParseGlob(filepath.Join(".", "templates", "*.html"))
 	if err != nil {
 		log.Fatalf("Could not parse the template %v\n", err)
