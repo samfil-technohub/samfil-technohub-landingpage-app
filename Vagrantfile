@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
       ansible.raw_arguments  = ["--private-key=~/.ssh/server_key"]
       ansible.playbook = "configuration/development.yml"
     end
-    #master.vm.provision "shell", path: "configuration/bootstrap-cluster.sh" 
+    development.vm.provision "shell", path: "configuration/bootstrap.sh" 
   end 
   
   #synchronize folders
