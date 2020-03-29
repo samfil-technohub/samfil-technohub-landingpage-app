@@ -4,36 +4,15 @@
     path: "/var/www/html"
     state: directory
     owner: root
-    group: root
-    mode: "u=rw,g=r,o=r"
-
-# - name: Remove the Existing Files
-#   file:
-#     path: /usr/share/nginx/html/
-#     state: absent
-#   run_once: true
-
-# - name: Activate Symlink on the Directory
-#   file: 
-#     src: "{{ansible_env.PWD}}/samfil-technohub-landingpage-app"
-#     dest: "/var/www/html"
-#     # owner: root
-#     # group: root
-#     state: link
-#     force: true
-#   when: ansible_hostname == "development"
-#   notify:
-#     - Reload Daemon
+    group: www-data
 
 - name: Make the /var/www/html Empty
   file:
     path: /var/www/html/
     state: absent
-  when: ansible_hostname != "development"
     
 - name: Deploy the Application
   git: 
     repo: 'https://github.com/knoxknot/landingpage.git'
     dest: /var/www/html
   changed_when: true
-  when: ansible_hostname != "development"

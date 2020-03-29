@@ -28,9 +28,6 @@ Vagrant.configure("2") do |config|
 
   # vm provider
   config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
-    #vb.gui = true   
-
     # Correct this error Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output 
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
 
