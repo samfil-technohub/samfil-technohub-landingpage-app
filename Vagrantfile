@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   # operating system for the VM
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu-xenial64"
 
   # ssh settings
   config.ssh.username = "vagrant"
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   end 
   
   #synchronize folders
-  config.vm.synced_folder '.', '/home/vagrant/samfil-technohub-landingpage-app', :owner => 'vagrant', :mount_options => ["dmode=774", "fmode=774"]
+  config.vm.synced_folder '.', '/usr/share/nginx/html'
 
   # vm provider
   config.vm.provider "virtualbox" do |vb|
