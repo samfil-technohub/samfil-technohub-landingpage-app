@@ -1,0 +1,4 @@
+configuration
+.vagrant
+*.crt 
+*.key
