@@ -7,25 +7,6 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = ["~/.ssh/server_key", "~/.vagrant.d/insecure_private_key"]
   config.ssh.insert_key = false
 
-  # upload public key into the machine
-  config.vm.provision "file", source: "~/.ssh/server_key.pub", destination: "~/.ssh/authorized_keys"
-
-  # configure the development server
-  config.vm.define "development" do |development|
-    development.vm.hostname = "development"
-    development.vm.network "private_network", ip: "192.168.255.9"
-    development.vm.provision :ansible do |ansible|
-      ansible.inventory_path = "configuration/hosts"
-      ansible.verbose = "vvvv"
-      ansible.raw_arguments  = ["--private-key=~/.ssh/server_key"]
-      ansible.playbook = "configuration/development.yml"
-    end
-    development.vm.provision "shell", path: "configuration/bootstrap.sh" 
-  end 
-  
-  #synchronize folders
-  config.vm.synced_folder '.', '/usr/share/nginx/html'
-
   # vm provider
   config.vm.provider "virtualbox" do |vb|
     # Correct this error Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output 
@@ -37,4 +18,27 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
     vb.memory = "1024"
   end
+
+  #synchronize folders between host and guest machine
+  config.vm.synced_folder '.', '/usr/share/nginx/html'
+
+  # upload public key into the machine
+  config.vm.provision "file", source: "~/.ssh/server_key.pub", destination: "~/.ssh/authorized_keys"
+
+  # configure the development server
+  config.vm.define "development" do |development|
+    development.vm.hostname = "development"
+    development.vm.network "private_network", ip: "192.168.255.9"
+    development.vm.provision :ansible do |ansible|
+      ansible.inventory_path = "configuration/hosts"
+      ansible.verbose = "vvvv"
+      ansible.raw_arguments  = ["--private-key=~/.ssh/server_key"]
+      ansible.playbook = "configuration/server.yml"
+    end
+    development.vm.provision "shell", inline: <<-SHELL
+      echo 'Running Serverspec Tests...'
+      cd /usr/share/nginx/html/configuration/serverspec
+      rake -v -t
+    SHELL
+  end 
 end
