@@ -1,15 +1,14 @@
 ## Documentation
 Prerequisite
 ---
-Install ansible, virtualbox, and vagrant within your local machine.
+Install ansible, virtualbox, and vagrant on your local machine.
 
 Running the Application
 ---
-- create ssh key pair within the ~/.ssh directory with the name server_key
-- eval `ssh-agent`
-- ssh-add ~/.ssh/server_key
-- clone the configuration repository within the application parent directory `git clone -b development https://github.com/samfil-technohub/samfil-technohub-landingpage-config.git configuration`
-- change into the directory and run `vagrant up --provision` to boot the VM.
+- Clone this repository.
+- Create ssh key pair within the ~/.ssh directory with the name server_key
+- Clone the configuration repository within the application parent directory `git clone https://github.com/samfil-technohub/samfil-technohub-landingpage-config.git configuration`
+- Run `vagrant up --provision` to boot and configure the VM.
 
 Viewing the Application
 ---
