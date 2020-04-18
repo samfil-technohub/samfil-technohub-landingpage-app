@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  # operating system for the VM
+  # vm operating system
   config.vm.box = "ubuntu-xenial64"
 
   # ssh settings
@@ -7,25 +7,25 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = ["~/.ssh/server_key", "~/.vagrant.d/insecure_private_key"]
   config.ssh.insert_key = false
 
-  # vm provider
-  config.vm.provider "virtualbox" do |vb|
-    # Correct this error Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output 
-    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
-
-    # Customize the number CPUS on the VM:
-    vb.cpus = "1"
-
-    # Customize the amount of memory on the VM:
-    vb.memory = "1024"
-  end
-
-  #synchronize folders between host and guest machine
-  config.vm.synced_folder '.', '/usr/share/nginx/html'
-
   # upload public key into the machine
   config.vm.provision "file", source: "~/.ssh/server_key.pub", destination: "~/.ssh/authorized_keys"
 
-  # configure the development server
+  # vm provider
+  config.vm.provider "virtualbox" do |vb|
+    # serial port settings
+    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
+
+    # vm cpu cores
+    vb.cpus = "1"
+
+    # vm memory size in megabytes
+    vb.memory = "1024"
+  end
+
+  # synchronize folders between host and guest machines
+  config.vm.synced_folder '.', '/usr/share/nginx/html'
+
+  # configure the vm
   config.vm.define "development" do |development|
     development.vm.hostname = "development"
     development.vm.network "private_network", ip: "192.168.255.9"
