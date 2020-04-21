@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage ('Checkout') {
       steps {
-        checkout([$class:'GitSCM', branches:[[name:'']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[credentialsId:'github', url:'https://github.com/samfil-technohub/samfil-technohub-landingpage-app.git']]])
+        checkout([$class:'GitSCM', branches:[[name:'*/']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[credentialsId:'github', url:'https://github.com/samfil-technohub/samfil-technohub-landingpage-app.git']]])
         stash(name: 'ws', includes: '**', excludes: '**/.git/**')
         echo "Project Checked Out"        
       }
