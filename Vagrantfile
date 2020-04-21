@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
     development.vm.network "private_network", ip: "192.168.255.9"
     development.vm.provision :ansible do |ansible|
       ansible.inventory_path = "configuration/hosts"
+      ansible.compatibility_mode = "2.0"
       ansible.verbose = "vvvv"
       ansible.raw_arguments  = ["--private-key=~/.ssh/server_key"]
       ansible.playbook = "configuration/server.yml"
